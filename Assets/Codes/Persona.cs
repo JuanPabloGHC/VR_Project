@@ -32,6 +32,10 @@ public class Persona : MonoBehaviour
         {
             onEndPoint = true;
         }
+        else
+        {
+            onEndPoint = false;
+        }
     }
     /*
     private void OnTriggerEnter(Collider other)
