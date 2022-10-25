@@ -14,7 +14,7 @@ public class Coche : MonoBehaviour
     //Awake
     private void Awake()
     {
-        _rigidBody = GetComponent<Rigidbody>();    
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     // Start is called before the first frame update
@@ -28,7 +28,7 @@ public class Coche : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void FixedUpdate()
@@ -42,30 +42,32 @@ public class Coche : MonoBehaviour
 
     private void UpdateTarget()
     {
-        if(_target == null)
+        if (_target == null)
         {
             _target = new GameObject("TargetPlataforma");
-            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 8f);
+            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 9f);
         }
         else if (posicionNum == 1)
         {
             posicionNum = 2;
-            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 1.5f);
+            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
         }
         else
         {
             posicionNum = 1;
-            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 8f);
+            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 9f);
         }
     }
-    /*
-    public IEnumerator ToTarget()
+    private void OnTriggerEnter(Collider other)
     {
-        while ((this.transform.position.z - _target.transform.position.z) > 0.05f)
+        if (other.gameObject.name == "XR Origin" )
         {
-            Vector3 direction = (transform.forward * speed + transform.position.z)
-            _rigidBody.velocity = direction * 
+            other.gameObject.transform.SetParent(this.transform);
+        }
+        else
+        {
+            other.gameObject.transform.SetParent(null);
+
         }
     }
-    */
 }
