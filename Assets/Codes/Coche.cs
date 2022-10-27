@@ -6,10 +6,8 @@ public class Coche : MonoBehaviour
 {
     private Rigidbody _rigidBody;
     public float speed;
-    //public Transform inicio;
-    //public Transform final;
-    private int posicionNum;
-    private GameObject _target;
+    private bool touched;
+    private GameObject Persona;
 
     //Awake
     private void Awake()
@@ -20,54 +18,38 @@ public class Coche : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        posicionNum = 1;
-        UpdateTarget();
-        //StartCoroutine("ToTarget");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    private void FixedUpdate()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, _target.transform.position) <= 0.005f)
+        if (touched)
         {
-            UpdateTarget();
+            this.transform.position = new Vector3(Persona.transform.position.x, Persona.transform.position.y - 1f, Persona.transform.position.z);
         }
     }
 
-    private void UpdateTarget()
-    {
-        if (_target == null)
-        {
-            _target = new GameObject("TargetPlataforma");
-            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 9f);
-        }
-        else if (posicionNum == 1)
-        {
-            posicionNum = 2;
-            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 1f);
-        }
-        else
-        {
-            posicionNum = 1;
-            _target.transform.position = new Vector3(transform.position.x, transform.position.y, 9f);
-        }
-    }
+   
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "XR Origin" )
         {
-            other.gameObject.transform.SetParent(this.transform);
+            Persona = other.gameObject;
+            this.transform.SetParent(Persona.transform);
+            touched = true;
+            
         }
-        else
+        
+    }
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "XR Origin")
         {
-            other.gameObject.transform.SetParent(null);
+            Persona = collision.gameObject;
+            this.transform.SetParent(Persona.transform);
+            touched = true;
 
         }
-    }
+    }*/
 }
