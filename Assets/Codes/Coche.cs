@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class Coche : MonoBehaviour
 {
-    private Rigidbody _rigidBody;
     public float speed;
+    public float positionX;
     private bool touched;
     private GameObject Persona;
-
-    //Awake
-    private void Awake()
-    {
-        _rigidBody = GetComponent<Rigidbody>();
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +20,8 @@ public class Coche : MonoBehaviour
     {
         if (touched)
         {
-            this.transform.position = new Vector3(Persona.transform.position.x, Persona.transform.position.y - 1f, Persona.transform.position.z);
+            Persona.transform.position = new Vector3(positionX, Persona.transform.position.y, Persona.transform.position.z + speed);
+            this.transform.position = new Vector3(positionX, Persona.transform.position.y - 1f, Persona.transform.position.z);
         }
     }
 
@@ -39,6 +34,11 @@ public class Coche : MonoBehaviour
             this.transform.SetParent(Persona.transform);
             touched = true;
             
+        }
+        else
+        {
+            this.transform.SetParent(null);
+            touched = false;
         }
         
     }
